@@ -8,13 +8,12 @@ terraform {
 
 provider "aws" {
 	region = var.region
-  profile = "greens"
 }
 
 
 
 resource "aws_iam_role" "eks-iam-role" {
- name = "greens-cluster-eks-iam-role"
+ name = "vicky-cluster-eks-iam-role"
 
  path = "/"
 
@@ -45,8 +44,8 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly-EK
 }
 
 
-resource "aws_eks_cluster" "greens-cluster-eks" {
- name = "greens-cluster-cluster"
+resource "aws_eks_cluster" "vicky-cluster-eks" {
+ name = "vicky-cluster-cluster"
  role_arn = aws_iam_role.eks-iam-role.arn
 
  
@@ -60,7 +59,7 @@ resource "aws_eks_cluster" "greens-cluster-eks" {
 
  depends_on = [
   aws_iam_role.eks-iam-role,
-  aws_cloudwatch_log_group.greens-cluster
+  aws_cloudwatch_log_group.vicky-cluster
  ]
 }
 
@@ -105,8 +104,8 @@ resource "aws_iam_role" "workernodes" {
  }
 
   resource "aws_eks_node_group" "worker-node-group" {
-  cluster_name  = aws_eks_cluster.greens-cluster-eks.name
-  node_group_name = "greens-cluster-workernodes"
+  cluster_name  = aws_eks_cluster.vicky-cluster-eks.name
+  node_group_name = "vicky-cluster-workernodes"
   node_role_arn  = aws_iam_role.workernodes.arn
   subnet_ids   = [var.subnet_id_1, var.subnet_id_2]
   
@@ -127,9 +126,9 @@ resource "aws_iam_role" "workernodes" {
   ]
  } 
  
- resource "aws_cloudwatch_log_group" "greens-cluster" {
+ resource "aws_cloudwatch_log_group" "vicky-cluster" {
   
-  name              = "/aws/eks/greens-cluster/cluster"
+  name              = "/aws/eks/vicky-cluster/cluster"
   retention_in_days = 7
 
   
